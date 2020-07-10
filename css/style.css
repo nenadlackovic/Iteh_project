@@ -1,0 +1,11 @@
+.container {
+  max-width: 960px;
+}
+
+.position-relative {
+  background: url(../img/index.jpg) no-repeat center center; 
+  background-size: cover;
+  
+}
+
+
