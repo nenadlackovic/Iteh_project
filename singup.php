@@ -1,5 +1,6 @@
 <?php
 include("menu.php");
+include('connection.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +16,9 @@ include("menu.php");
 
 
 <div class="position-relative overflow-hidden p-3 p-md-5   text-center bg-light">
+
+<p id="demo"></p>
+
 <section class="signup">
             <div class="container">
                 <div class="signup-content">
@@ -38,7 +42,7 @@ include("menu.php");
                                 <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                                <input type="submit" name="signup" id="signup" class="form-submit" onclick="add_user(); " value="Register"/>
                             </div>
                         </form>
                     </div>
@@ -48,10 +52,36 @@ include("menu.php");
                 </div>
             </div>
         </section>
+        
 </div>
 
 
+<script>
+function add_user(){
+  var name = document.getElementById("register-form").elements[0].value;
+  var email = document.getElementById("register-form").elements[1].value;
+  var pass = document.getElementById("register-form").elements[2].value;
 
+  fetch(`http://localhost:3000/users`, {
+  method: 'post',
+  headers: {
+    "Content-type": "application/json"
+  },
+  body: JSON.stringify({ "Username": name, "Password": pass , Uloga:"Korisnik" }) 
+})
+.then(function (data) {
+  console.log('Request succeeded with JSON response', data);
+})
+.catch(function (error) {
+  console.log('Request failed', error);
+});
+
+}
+
+
+
+
+</script>
 
 
 
