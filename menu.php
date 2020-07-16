@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="index.php">Navbar</a>
+  <a class="navbar-brand" href="#" id="game">rateit</a>
+  <title>rateit</title>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -24,4 +25,16 @@
     </ul>
   </div>
 </nav>
-<script src="js/game.js"></script>
+
+<script type="text/javascript">
+    var myLink = document.getElementById('game');
+
+    myLink.onclick = function(){
+
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "js/game.js."; 
+        document.getElementsByTagName("head")[0].appendChild(script);
+        return false;
+    }
+</script>
