@@ -1,3 +1,6 @@
+<?php
+include("connection.php");
+?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#" id="game">rateit</a>
   <title>rateit</title>
@@ -10,18 +13,74 @@
       <li class="nav-item active">
         <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
       </li>
+
+
+      <?php
+        if(!empty($_SESSION['admin'])){
+         ?> 
       <li class="nav-item">
         <a class="nav-link" href="admin.php">Admin</a>
       </li>
+      <?php 
+        }
+      ?>
+
+      
+
+
+      <?php
+        if(!empty($_SESSION['user'])){
+         ?> 
       <li class="nav-item">
         <a class="nav-link" href="user.php">User</a>
       </li>
+      <?php 
+        }
+      ?>
+      
+
+
+      
+      <?php
+        if(!empty($_SESSION['admin']) OR !empty($_SESSION['user']) ){
+      ?> 
       <li class="nav-item">
         <a class="nav-link" href="stats.php">Stats</a>
       </li>
+      <?php 
+        }
+      ?>
+
+      
+
+      <?php
+        if(!empty($_SESSION['admin']) OR !empty($_SESSION['user']) ){
+         ?> 
       <li class="nav-item">
+        <a class="nav-link" href="logout.php">Log out</a>
+      </li>
+      <?php 
+        }
+      ?>
+
+      <?php
+        if(empty($_SESSION['admin']) AND empty($_SESSION['user']) ){
+         ?> 
+        <li class="nav-item">
+        <li class="nav-item">
+        <a class="nav-link" href="singup.php">Sign up</a>
+        </li>
+        <a class="nav-link" href="singin.php">Sign in</a>
+        </li>
+        <?php 
+        }
+      ?>
+
+
+    <li class="nav-item">
         <a class="nav-link" href="about.php">About</a>
       </li>
+
     </ul>
   </div>
 </nav>
