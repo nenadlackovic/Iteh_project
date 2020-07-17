@@ -1,5 +1,29 @@
 <?php
 include("menu.php");
+$msg = '';
+
+if (isset($_POST['signup'])) {
+    $fName = $_POST['field_username'];
+    $fEmail        = $_POST['email']; 
+
+    
+    $json_string = file_get_contents('http://localhost:3000/users');
+    $parsed_json = json_decode($json_string, true);
+
+    $len = sizeof($parsed_json);
+
+    foreach ($parsed_json as $value){         
+        if ($fName == $value["Username"]){
+                $msg="Username already exists";
+                break;
+            }  
+        else if ($fEmail == $value["Email"]){
+                    $msg="Email already exists";
+                    break;
+                }
+       }   
+ }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +51,7 @@ include("menu.php");
                         <form method="POST" class="register-form" id="myForm">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="username" id="field_username" pattern="\w+" required placeholder="Your Name"/>
+                                <input type="text" name="field_username" id="field_username" pattern="\w+" required placeholder="Your Name"/>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -41,6 +65,15 @@ include("menu.php");
                                 <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
                                 <input type="password" name="pwd2" id="field_pwd2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required placeholder="Repeat your password"/>
                             </div>
+
+                            <div class="form-group">
+                                <?php
+                                    if($msg!=''){
+                                        echo("<h5> ".$msg."</h5>");
+                                    }
+                                ?>
+                            </div>
+
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit" onclick="add_user(); " value="Register"/>
                             </div>
@@ -54,6 +87,8 @@ include("menu.php");
         </section>
         
 </div>
+
+
 
 
     <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
