@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
       }
       alert("Both username and password are VALID!");
-      //asdsadasd
+      //dodavanje 
       var name = document.getElementById("myForm").elements[0].value;
       var email = document.getElementById("myForm").elements[1].value;
       var pass = document.getElementById("myForm").elements[2].value;
