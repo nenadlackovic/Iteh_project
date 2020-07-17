@@ -11,6 +11,7 @@ include('connection.php');
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
     <link href="css/register.css" rel="stylesheet">
+    <script type="text/javascript" src="js/signup.js"></script>
 </head>
 <body>
 
@@ -24,10 +25,10 @@ include('connection.php');
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="register-form">
+                        <form method="POST" class="register-form" id="myForm">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" required placeholder="Your Name"/>
+                                <input type="text" name="username" id="field_username" pattern="\w+" required placeholder="Your Name"/>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -35,11 +36,11 @@ include('connection.php');
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" required placeholder="Password"/>
+                                <input type="password" name="pwd1" id="field_pwd1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required placeholder="Password"/>
                             </div>
                             <div class="form-group">
                                 <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="re_pass" id="re_pass" required placeholder="Repeat your password"/>
+                                <input type="password" name="pwd2" id="field_pwd2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required placeholder="Repeat your password"/>
                             </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit" onclick="add_user(); " value="Register"/>
@@ -54,39 +55,6 @@ include('connection.php');
         </section>
         
 </div>
-
-
-<script>
-function add_user(){
-  var name = document.getElementById("register-form").elements[0].value;
-  var email = document.getElementById("register-form").elements[1].value;
-  var pass = document.getElementById("register-form").elements[2].value;
-
-  fetch(`http://localhost:3000/users`, {
-  method: 'post',
-  headers: {
-    "Content-type": "application/json"
-  },
-  body: JSON.stringify({ "Username": name, "Password": pass , Uloga:"Korisnik" }) 
-})
-.then(function (data) {
-  console.log('Request succeeded with JSON response', data);
-})
-.catch(function (error) {
-  console.log('Request failed', error);
-});
-
-}
-
-
-
-
-</script>
-
-
-
-
-
 
 
     <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
