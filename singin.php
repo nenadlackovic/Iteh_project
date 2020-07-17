@@ -1,5 +1,35 @@
 <?php
 include("menu.php");
+$msg = '';
+
+if (isset($_POST['signin'])) {
+    $username    = $_POST['your_name']; 
+    $pass        = $_POST['your_pass']; 
+    $flag        = false;
+
+    $json_string = @file_get_contents('http://localhost:3000/users/username/'.$username);
+    $parsed_json = json_decode($json_string, true);
+
+    if ($parsed_json["Username"] == $username && $parsed_json["Password"] == $pass  ){
+        $flag = true;
+    }
+    
+    if ($flag) {
+        if ($parsed_json["Uloga"] == "Korisnik"){
+            $_SESSION['user'] = "red";
+        }
+        else if($parsed_json["Uloga"] == "Admin"){
+            $_SESSION['admin'] = "red";
+        }
+        $msg="Successful";
+        header('location: index.php');
+    } else {
+        $msg="Please check your name and password";
+    }
+    
+    
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +51,6 @@ include("menu.php");
                     <div class="signin-image">
                         <figure><img src="img/singin.jpg" alt="sing up image"></figure>
                     </div>
-
                     <div class="signin-form">
                         <h2 class="form-title">Sign up</h2>
                         <form method="POST" class="register-form" id="login-form">
@@ -32,6 +61,13 @@ include("menu.php");
                             <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
                                 <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
+                            </div>
+                            <div class="form-group">
+                                <?php
+                                    if($msg!=''){
+                                        echo("<h5> ".$msg."</h5>");
+                                    }
+                                ?>
                             </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
