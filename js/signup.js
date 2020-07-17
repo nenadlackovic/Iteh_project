@@ -47,15 +47,17 @@ document.addEventListener("DOMContentLoaded", function() {
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify({ "Username": name, "Password": pass , Uloga:"Korisnik" }) 
+      body: JSON.stringify({ "Username": name, "Password": pass , "Email": email, Uloga:"Korisnik" }) 
     })
     .then(function (data) {
       console.log('Request succeeded with JSON response', data);
     })
     .catch(function (error) {
       console.log('Request failed', error);
+      alert("User alredy exist!");
     });
     };
+    
 
     var myForm = document.getElementById("myForm");
     myForm.addEventListener("submit", checkForm, true);
