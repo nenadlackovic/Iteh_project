@@ -1,29 +1,5 @@
 <?php
 include("menu.php");
-$msg = '';
-
-if (isset($_POST['signup'])) {
-    $fName = $_POST['field_username'];
-    $fEmail        = $_POST['email']; 
-
-    
-    $json_string = file_get_contents('http://localhost:3000/users');
-    $parsed_json = json_decode($json_string, true);
-
-    $len = sizeof($parsed_json);
-
-    foreach ($parsed_json as $value){         
-        if ($fName == $value["Username"]){
-                $msg="Username already exists";
-                break;
-            }  
-        else if ($fEmail == $value["Email"]){
-                    $msg="Email already exists";
-                    break;
-                }
-       }   
- }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,49 +10,45 @@ if (isset($_POST['signup'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
     <link href="css/register.css" rel="stylesheet">
-    <script type="text/javascript" src="js/signup.js"></script>
 </head>
 <body>
 
 
 <div class="position-relative overflow-hidden p-3 p-md-5   text-center bg-light">
 
-<p id="demo"></p>
 
 <section class="signup">
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="myForm">
+                        <form method="POST" class="register-form" id="register-form">
+
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="field_username" id="field_username" pattern="\w+" required placeholder="Your Name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" required placeholder="Your Email"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pwd1" id="field_pwd1" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required placeholder="Password"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="pwd2" id="field_pwd2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" required placeholder="Repeat your password"/>
+                                <input type="text" name="name" id="name" pattern="\w+" required placeholder="Your Name"/>
                             </div>
 
                             <div class="form-group">
-                                <?php
-                                    if($msg!=''){
-                                        echo("<h5> ".$msg."</h5>");
-                                    }
-                                ?>
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email"/>
                             </div>
+
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pass" id="pass" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="Password"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="re_pass" id="re_pass"  required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" placeholder="Repeat your password"/> 
+                            </div>
+
 
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit" onclick="add_user(); " value="Register"/>
                             </div>
+
                         </form>
                     </div>
                     <div class="signup-image">
@@ -88,6 +60,58 @@ if (isset($_POST['signup'])) {
         
 </div>
 
+<script>
+function add_user(){
+  var name = document.getElementById("register-form").elements[0].value;
+  var email = document.getElementById("register-form").elements[1].value;
+  var pass = document.getElementById("register-form").elements[2].value;
+  var pass2 = document.getElementById("re_pass").value;
+
+  if(pass != pass2){
+    alert("Password don't match!");
+    return;
+  }
+
+fetch('http://localhost:3000/users', { 
+  method: 'GET'
+})
+.then(function(response) { return response.json(); })
+.then(function(json) {
+    
+    var userStr = JSON.stringify(json);
+    
+    JSON.parse(userStr, (key, value) => {
+    if (key == 'Username') {
+        if(value == name){
+            alert("Username already exists!");
+            return;
+        }
+  }
+    if (key == "Email"){
+      if(value == email){
+        alert("Email already exists!");
+        return;
+      }
+  }
+});
+
+});
+
+
+fetch(`http://localhost:3000/users`, {
+  method: 'post',
+  headers: {
+    "Content-type": "application/json"
+  },
+  body: JSON.stringify({ "Username": name, "Password": pass ,"Email":email, Uloga:"Korisnik" }) 
+});
+
+
+}
+
+
+
+</script>
 
 
 
