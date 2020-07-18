@@ -1,5 +1,10 @@
 <?php
 include("menu.php");
+
+//forbidden access to all except admin 
+if(empty($_SESSION['admin'])){
+    header("Location: singin.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
