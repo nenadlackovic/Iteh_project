@@ -67,11 +67,11 @@ if($parsed_json2["crew"][$i]["job"] == 'Director'){
 
                     <div class="form-group">
                         <label for="exampleInputPassword1">Genre</label>
-                        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                        <option selected>Choose...</option>
-                        <?php  $result=$mysqli2->query("select * from zanr"); while($row=$result->fetch_assoc()){ ?>
-                            <option value=" <?php echo $row['zanrId']; ?>"> <?php echo $row['imeZanra']; ?></option>
-                        <?php } ?>
+                        <select class="custom-select my-1 mr-sm-2" id="genres">
+                            <option selected>Choose...</option>
+                            <?php  $result=$mysqli2->query("select * from zanr"); while($row=$result->fetch_assoc()){ ?>
+                            <option  value=" <?php echo $row['zanrId']; ?>"> <?php echo $row['imeZanra']; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
 
@@ -113,7 +113,7 @@ if($parsed_json2["crew"][$i]["job"] == 'Director'){
 
                 <div class="col">   
                 <div class="form-group form-button">  
-                <input type="submit" name="signup" id="signup" class="form-submit" onclick="add_film(); " value="Register"/>
+                <input type="submit" name="signup" id="signup" class="btn btn-dark" onclick="add_film(); " value="Register"/>
                 </div>
                 </div>
             
@@ -150,28 +150,12 @@ var directorFirstName = director.match(/^[a-zA-z]+/);
 var directorLastName = director.match(/\s[^\s]+.*$/);
 
 
-var obj;
-fetch("http://localhost:3000/directors", {
-  method: "POST",
-  body: JSON.stringify({"imeRezisera":directorFirstName, "prezimeRezisera":directorLastName}),
-  headers: {"content-type": "application/json"},
-})
-.then(res => res.json())
-.then(data => obj = data)
-.then(() => 
 
-fetch(`http://localhost:3000/films`, {
-  method: 'post',
-  headers: {
-    "Content-type": "application/json"
-  },
-  body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
-  "Opis":overview, "reziser":obj}) 
-})
-
-)
-};
-
+var genre;
+$('#genres').on('change', function(){
+    genre = $(this).val();
+    console.log(genre);
+});
 
 
 
@@ -179,18 +163,34 @@ fetch(`http://localhost:3000/films`, {
 
 
 // var obj;
+// fetch("http://localhost:3000/directors", {
+//   method: "POST",
+//   body: JSON.stringify({"imeRezisera":directorFirstName, "prezimeRezisera":directorLastName}),
+//   headers: {"content-type": "application/json"},
+// })
+// .then(res => res.json())
+// .then(data => obj = data)
+// .then(() => 
 
-// fetch(`http://localhost:3000/directors`, {
+// fetch(`http://localhost:3000/films`, {
 //   method: 'post',
 //   headers: {
 //     "Content-type": "application/json"
 //   },
-//   body: JSON.stringify({"imeRezisera":directorFirstName, "prezimeRezisera":directorLastName})   
+//   body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
+//   "Opis":overview, "reziser":obj}) 
 // })
-// .then(res => res.json())
-// .then(data => obj = data)
-// .then(() => alert(obj))
-// ;
+// )
+
+
+
+
+
+
+
+
+};
+
 
 
 
