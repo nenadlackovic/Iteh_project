@@ -12,7 +12,8 @@ for($p = 1; $p <= 5; $p++){
         $date =  $obj->results[$x]->release_date;
         $overview = $obj->results[$x]->overview;
         $img = $obj->results[$x]->poster_path;
-        $mysqli->query("insert into popularmovies (title,release_date,overview,poster_path) values ('$name','$date','$overview','$img')");
+        $id = $obj->results[$x]->id;
+        $mysqli->query("insert into popularmovies (title,release_date,overview,poster_path,realId) values ('$name','$date','$overview','$img','$id')");
 }
 }
 

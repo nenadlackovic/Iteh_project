@@ -1,6 +1,5 @@
 <?php
 include("menu.php");
-
 //forbidden access to all except admin 
 if(empty($_SESSION['admin'])){
     header("Location: singin.php");
@@ -19,11 +18,11 @@ if(empty($_SESSION['admin'])){
         <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="js/main.js"></script>
     </head>
     <body>
+    
         <div class="position-relative overflow-hidden p-3 p-md-5 m-md-4 text-center bg-light">
-            <button type="button" class="btn btn-danger" onclick="add()">Danger</button>
+        <button type="button" class="btn btn-danger" onclick="add()">Danger</button>
             <script>
                 function add() {
                     $.ajax({
@@ -43,6 +42,7 @@ if(empty($_SESSION['admin'])){
                         <th>Title</th>
                         <th>Release date</th>
                         <th>Overview</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,18 +64,22 @@ if(empty($_SESSION['admin'])){
                         <td>
                             <?php echo $row['overview']; ?>
                         </td>
+                        <td>
+                        <input type="button" value="Select" onClick="window.location='admin2.php?var=<?php echo $row['realId'] ?>'">
+                        </td>
                     </tr>
                     <?php } ?>
                 </tbody>
             </table>
+
         </div>
+     
+
         <script>
             $(document).ready(function () {
                 $("#myTable").DataTable();
             });
         </script>
-        <?php
-include("footer.php");
-?>
-    </body>
+
+</body>
 </html>
