@@ -151,6 +151,7 @@ var directorLastName = director.match(/\s[^\s]+.*$/);
 
 
 var obj;
+var directorId;
 fetch("http://localhost:3000/directors", {
   method: "POST",
   body: JSON.stringify({"imeRezisera":directorFirstName, "prezimeRezisera":directorLastName}),
@@ -158,23 +159,25 @@ fetch("http://localhost:3000/directors", {
 })
 .then(res => res.json())
 .then(data => obj = data)
-.then(() => console.log(obj))
-var dir = JSON.parse(obj);
-var directorId = dir["ReziserId"];
-console.log(directorId);
+.then(() => console.log(obj.ReziserId))
+.then(() => 
+
+fetch(`http://localhost:3000/films`, {
+  method: 'post',
+  headers: {
+    "Content-type": "application/json"
+  },
+  body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
+  "Opis":overview, "reziser":{"reziserId":obj.ReziserId}}) 
+})
+
+)
 };
 
 
 
 
-// fetch(`http://localhost:3000/films`, {
-//   method: 'post',
-//   headers: {
-//     "Content-type": "application/json"
-//   },
-// //   body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
-// //   "Opis":overview}) 
-// });
+
 
 
 // var obj;
