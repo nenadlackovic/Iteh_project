@@ -151,7 +151,6 @@ var directorLastName = director.match(/\s[^\s]+.*$/);
 
 
 var obj;
-var directorId;
 fetch("http://localhost:3000/directors", {
   method: "POST",
   body: JSON.stringify({"imeRezisera":directorFirstName, "prezimeRezisera":directorLastName}),
@@ -159,7 +158,6 @@ fetch("http://localhost:3000/directors", {
 })
 .then(res => res.json())
 .then(data => obj = data)
-.then(() => console.log(obj.ReziserId))
 .then(() => 
 
 fetch(`http://localhost:3000/films`, {
@@ -168,7 +166,7 @@ fetch(`http://localhost:3000/films`, {
     "Content-type": "application/json"
   },
   body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
-  "Opis":overview, "reziser":{"reziserId":obj.ReziserId}}) 
+  "Opis":overview, "reziser":obj}) 
 })
 
 )
