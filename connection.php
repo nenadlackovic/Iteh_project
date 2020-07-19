@@ -1,7 +1,5 @@
 <?php
 
-  
-  $mysqli = mysqli_connect("localhost", "root", "", "movies");
   $mysqli2 = mysqli_connect("localhost", "root", "", "iteh1");
 
   
