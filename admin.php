@@ -34,7 +34,7 @@ $obj = json_decode($json);
     
         <div class="position-relative overflow-hidden p-1 p-sm-5 m-md-4 text-center bg-light">
         <form name="form" action="" method="get">
-        <div class="p-2 bg-light rounded rounded-pill shadow-lg mb-">
+        <div class="p-2 bg-light rounded rounded-pill shadow-lg ">
             <div class="input-group">
               <div class="input-group-prepend">
                 <button id="button-addon2" type="submit" class="btn btn-link "><i class="fa fa-search"></i></button>

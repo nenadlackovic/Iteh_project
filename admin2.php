@@ -23,6 +23,7 @@ if($parsed_json2["crew"][$i]["job"] == 'Director'){
 }
 }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,10 +37,8 @@ if($parsed_json2["crew"][$i]["job"] == 'Director'){
 </head>
     </head>
     <body>
-    
-        <div class="position-relative overflow-hidden p-3 p-md-5 m-md-4 text-center bg-light">
+        <div class="position-relative overflow-hidden  p-3 p-md-5 m-md-4 text-center bg-light">
         <div class="container">
-
             <div class="row">
 
                 <div class="col-sm">
@@ -50,76 +49,56 @@ if($parsed_json2["crew"][$i]["job"] == 'Director'){
 
                 <div class="col-sm">
 
-                    <div class="form-group">
+                    <div class="form-group text-white font-weight-bold">
                         <label for="exampleInputPassword1">Title</label>
                         <input type="text" class="form-control" id="title" readonly value="<?php echo $title ?>">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group text-white font-weight-bold">
                         <label for="exampleInputPassword1">Duration</label>
                         <input type="text" class="form-control" id="duration" readonly value="<?php echo $duration ?>min">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group text-white font-weight-bold">
                         <label for="exampleInputPassword1">Release date</label>
                         <input type="text" class="form-control" id="releaseDate" readonly value="<?php echo $date ?>">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group text-white font-weight-bold">
+                        <label for="exampleInputPassword1">Director</label>
+                        <input type="text" class="form-control" id="director" readonly value="<?php echo $director ?> ">
+                    </div>
+
+                    <div class="form-group text-white font-weight-bold">
+                        <label for="exampleInputPassword1">Overview</label>
+                        <textarea class="form-control" id="overview" readonly rows="4"><?php echo $overview ?></textarea>
+                    </div>
+
+                    
+                    <div class="form-group text-white font-weight-bold">
                         <label for="exampleInputPassword1">Genre</label>
-                        <select class="custom-select my-1 mr-sm-2" id="genres">
+                        <select class="custom-select my-1 mr-sm-2" id="genres" name="genres">
                             <option selected>Choose...</option>
                             <?php  $result=$mysqli2->query("select * from zanr"); while($row=$result->fetch_assoc()){ ?>
                             <option  value=" <?php echo $row['zanrId']; ?>"> <?php echo $row['imeZanra']; ?></option>
                             <?php } ?>
                         </select>
                     </div>
-
-                    
-
                 </div>
-
             </div>
 
-            <div class="row">
-
-                <div class="col">
-
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Director</label>
-                        <input type="text" class="form-control" id="director" readonly value="<?php echo $director ?> ">
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="row">
-
-                <div class="col">
-
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Overview</label>
-                        <textarea class="form-control" id="overview" readonly rows="3"><?php echo $overview ?></textarea>
-                    </div>
-
-                </div>
-            
-            </div>
-            
             <br>
 
             <div class="row">
 
                 <div class="col">   
                 <div class="form-group form-button">  
-                <input type="submit" name="signup" id="signup" class="btn btn-dark" onclick="add_film(); " value="Register"/>
+                <input type="submit" name="signup" id="signup" class="btn btn-info" onclick="add_film(); " value="Register"/>
                 </div>
                 </div>
             
             </div>
 
-            
             <div>
 
      
@@ -127,7 +106,12 @@ if($parsed_json2["crew"][$i]["job"] == 'Director'){
         </div>
 </body>
 
+
+
 <script>
+
+
+
 function add_film(){
 
 var title = document.getElementById("title").value;
@@ -149,40 +133,40 @@ var director = document.getElementById("director").value;
 var directorFirstName = director.match(/^[a-zA-z]+/);
 var directorLastName = director.match(/\s[^\s]+.*$/);
 
-
-
-var genre;
-$('#genres').on('change', function(){
-    genre = $(this).val();
-    console.log(genre);
-});
+var genre = document.getElementById("genres").value;
 
 
 
 
 
 
-// var obj;
-// fetch("http://localhost:3000/directors", {
-//   method: "POST",
-//   body: JSON.stringify({"imeRezisera":directorFirstName, "prezimeRezisera":directorLastName}),
-//   headers: {"content-type": "application/json"},
-// })
-// .then(res => res.json())
-// .then(data => obj = data)
-// .then(() => 
 
-// fetch(`http://localhost:3000/films`, {
-//   method: 'post',
-//   headers: {
-//     "Content-type": "application/json"
-//   },
-//   body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
-//   "Opis":overview, "reziser":obj}) 
-// })
-// )
+var obj;
+fetch("http://localhost:3000/directors", {
+  method: "POST",
+  body: JSON.stringify({"imeRezisera":directorFirstName, "prezimeRezisera":directorLastName}),
+  headers: {"content-type": "application/json"},
+})
+.then(res => res.json())
+.then(data => obj = data)
+.then(() => 
 
-
+fetch(`http://localhost:3000/films`, {
+  method: 'post',
+  headers: {
+    "Content-type": "application/json"
+  },
+  body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
+  "Opis":overview, "reziser":obj, "zanr": genre })
+})
+.then( function asd(){
+    if (obj.statusCode){
+        alert("Error, movie already exist !");
+    }else{
+        alert("Movie added successfully");
+    }
+} )
+)
 
 
 
@@ -211,5 +195,12 @@ $('#genres').on('change', function(){
   src="https://code.jquery.com/jquery-3.5.1.min.js"
   integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
   crossorigin="anonymous"></script>
+
+  <style type="text/css">
+.position-relative {
+  background: url(img/admin.jpg) no-repeat center center; 
+  background-size: cover; 
+}
+</style>
 
 </html>
