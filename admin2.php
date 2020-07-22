@@ -134,13 +134,6 @@ var directorFirstName = director.match(/^[a-zA-z]+/);
 var directorLastName = director.match(/\s[^\s]+.*$/);
 
 var genre = document.getElementById("genres").value;
-
-
-
-
-
-
-
 var obj;
 fetch("http://localhost:3000/directors", {
   method: "POST",
@@ -149,7 +142,7 @@ fetch("http://localhost:3000/directors", {
 })
 .then(res => res.json())
 .then(data => obj = data)
-.then(() => 
+.then(() =>
 
 fetch(`http://localhost:3000/films`, {
   method: 'post',
@@ -167,21 +160,12 @@ fetch(`http://localhost:3000/films`, {
     }
 } )
 )
-
-
-
-
-
-
 };
 
 
 
 
 
-
-
-</script>
 
 
 </script>
