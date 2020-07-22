@@ -104,7 +104,17 @@ fetch(`http://localhost:3000/users`, {
     "Content-type": "application/json"
   },
   body: JSON.stringify({ "Username": name, "Password": pass ,"Email":email, Uloga:"Korisnik" }) 
-});
+})
+.then(res => res.json())
+.then(data => obj = data)
+.then( function asd(){
+    if (obj.statusCode){
+        alert("Error!");
+    }else{
+        alert("Registration successful!");
+    }
+} );
+
 
 
 }
