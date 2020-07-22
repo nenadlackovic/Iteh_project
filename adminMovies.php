@@ -88,24 +88,26 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
       </div>
       
       <form method="POST" class="register-form" id="register-form">
+      <?php  $result=$mysqli2->query("select * from film"); while($row=$result->fetch_assoc()){ ?>
       <div class="modal-body">
         <div class="input-group mb-3">
 			<div class="input-group-prepend"> <span class="input-group-text" id="title">Title</span> </div>
-			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value=""> 
+			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value="<?php echo $row['Ime_Filma']; ?>"> 
         </div>
         <div class="input-group mb-3">
 			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Duration</span> </div>
-			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value=""> 
+			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value="<?php echo $row['Trajanje']; ?>"> 
         </div>
         <div class="input-group mb-3">
 			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Release date</span> </div>
-			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value=""> 
+			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value="<?php echo $row['Godina_proizvodnje']; ?>"> 
         </div>
         <div class="input-group mb-3">
 			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Overview</span> </div>
-			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value=""> 
+			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value="<?php echo $row['Opis']; ?>"> 
         </div>
       </div>
+      <?php } ?>
       </form>
       
       <div class="modal-footer">
@@ -125,7 +127,7 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
         
                 
         function delete_film(id){
-            
+
             fetch("http://localhost:3000/films/"+id, {
             method: "DELETE",
             })
