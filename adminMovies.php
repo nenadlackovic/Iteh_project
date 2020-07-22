@@ -46,10 +46,10 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
                 <?php for ($x = 0; $x < @count($obj); $x++){ ?>
                     <tr>
                         <td>
-                            <?php echo $obj[$x]["Trajanje"]; ?>
+                            <?php echo $obj[$x]["ImeFilma"]; ?>
                         </td>
                         <td>
-                        <?php echo $obj[$x]["ImeFilma"]; ?>
+                        <?php echo $obj[$x]["Trajanje"]; ?>
                         </td>
         
                         <td>
@@ -60,10 +60,14 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
                         <?php echo $obj[$x]["Opis"]; ?>
                         </td>
 
-                        <td>
+                        <td style='white-space: nowrap'>
                         <?php $idd =  $obj[$x]["FilmId"]; ?>
+                        
+                            <input type="button" name="edit" id="edit" class="btn btn-info" value="Edit" 
+                            data-toggle="modal" data-target="#exampleModal">
                             <input type="button" name="delete" id="delete" class="btn btn-info" value="Delete" 
-                            onclick="delete_film(<?php echo $idd; ?>)">
+                            onclick="delete_film(<?php echo $idd; ?>); location.href = 'adminMovies.php'">
+                        
                         </td>
                     </tr>
                 <?php } ?>  
@@ -72,21 +76,91 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
             </form>           
         </div>
 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form method="POST" class="register-form" id="register-form">
+      <div class="modal-body">
+        <div class="input-group mb-3">
+			<div class="input-group-prepend"> <span class="input-group-text" id="title">Title</span> </div>
+			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value=""> 
+        </div>
+        <div class="input-group mb-3">
+			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Duration</span> </div>
+			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value=""> 
+        </div>
+        <div class="input-group mb-3">
+			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Release date</span> </div>
+			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value=""> 
+        </div>
+        <div class="input-group mb-3">
+			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Overview</span> </div>
+			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value=""> 
+        </div>
+      </div>
+      </form>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" onclick="edit_film(<?php echo $idd; ?>);window.location.reload();">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
         
 
         
 
         <script>
+
+        
                 
         function delete_film(id){
-            // var id = document.getElementById("delete").value;
-            // alert(id);
-
+            
             fetch("http://localhost:3000/films/"+id, {
             method: "DELETE",
             })
             .then(alert("Movie deleted!")); 
         }
+
+        function edit_film(idd){
+
+            var title = document.getElementById("register-form").elements[0].value;
+            var duration = parseInt(document.getElementById("register-form").elements[1].value);
+            var date = parseInt(document.getElementById("register-form").elements[2].value);
+            var overview = document.getElementById("register-form").elements[3].value;
+            
+
+            var obj;
+            fetch("http://localhost:3000/films/"+idd, {
+            method: "GET",
+            })
+            .then(res => res.json())
+            .then(data => obj = data)
+            .then(() => {
+                
+                fetch("http://localhost:3000/films/"+idd, {
+                 method: "PUT",
+                 headers: {
+                "Content-type": "application/json"
+                },
+                body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":date,"Trajanje":duration,"Poster":obj.Poster,
+                "Opis":overview})
+                })
+            })
+
+                
+             
+        };
 
         </script>
      
@@ -100,6 +174,8 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
                 $("#myTable").DataTable();
             });
         </script>
+
+
 
 
 </body>
