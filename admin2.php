@@ -5,6 +5,10 @@ if(empty($_SESSION['admin'])){
     header("Location: singin.php");
 }
 
+$json_string = @file_get_contents('http://localhost:3000/users/username/admin');
+$parsed_json = json_decode($json_string, true);
+$admin = $parsed_json["KorisnikId"];
+
 $id = $_GET['var'];
 $json_string = @file_get_contents("https://api.themoviedb.org/3/movie/".$id."?api_key=953329996405fcf730fd2fd2dea895e7");
 $parsed_json = json_decode($json_string, true);
@@ -78,7 +82,6 @@ if($parsed_json2["crew"][$i]["job"] == 'Director'){
                     <div class="form-group text-white font-weight-bold">
                         <label for="exampleInputPassword1">Genre</label>
                         <select class="custom-select my-1 mr-sm-2" id="genres" name="genres">
-                            <option selected>Choose...</option>
                             <?php  $result=$mysqli2->query("select * from zanr"); while($row=$result->fetch_assoc()){ ?>
                             <option  value=" <?php echo $row['zanrId']; ?>"> <?php echo $row['imeZanra']; ?></option>
                             <?php } ?>
@@ -150,7 +153,7 @@ fetch(`http://localhost:3000/films`, {
     "Content-type": "application/json"
   },
   body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
-  "Opis":overview, "reziser":obj, "zanr": genre })
+  "Opis":overview, "reziser":obj, "zanr": genre, "korisnik":<?php echo $admin ?>})
 })
 .then( function asd(){
     if (obj.statusCode){
