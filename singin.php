@@ -52,7 +52,7 @@ if (isset($_POST['signin'])) {
                         <figure><img src="img/singin.jpg" alt="sing up image"></figure>
                     </div>
                     <div class="signin-form">
-                        <h2 class="form-title">Sign up</h2>
+                        <h2 class="form-title">Sign in</h2>
                         <form method="POST" class="register-form" id="login-form">
                             <div class="form-group">
                                 <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>

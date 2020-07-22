@@ -16,8 +16,8 @@ include("menu.php");
   <div class="col-md-5 p-lg-5 mx-auto my-5">
     <h1 class="display-4 font-weight-normal">rateit</h1>
     <p class="lead font-weight-normal">Add films as you watch them to keep your film diary right up to date. Rate, review and tag as you go, then share and discuss.</p>
-    <a class="btn btn-outline-secondary" href="singup.php">Sing up</a>
-    <a class="btn btn-outline-secondary" href="singin.php">Sing in</a>
+    <a class="btn btn-outline-secondary" href="singup.php">Sign up</a>
+    <a class="btn btn-outline-secondary" href="singin.php">Sign in</a>
     <br><br><br><br><br>
   </div>
   <div class="product-device shadow-sm d-none d-md-block"></div>
