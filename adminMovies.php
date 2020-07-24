@@ -29,7 +29,7 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     </head>
     <body>
-    
+        
         <div class="position-relative overflow-hidden p-1 p-sm-5 m-md-4 text-center bg-light">
         <form name="form" action="" method="get">
         <table class="table table-fluid" id="myTable">
@@ -61,12 +61,20 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
                         </td>
 
                         <td style='white-space: nowrap'>
-                        <?php $idd =  $obj[$x]["FilmId"]; ?>
+                        <?php $idd =  $obj[$x]["FilmId"];?>
                         
                             <input type="button" name="edit" id="edit" class="btn btn-info" value="Edit" 
-                            data-toggle="modal" data-target="#exampleModal">
+                            data-toggle="modal" href="#exampleModal<?php echo $idd; ?>">
+                            <?php include("modalEditMovies.php")?>
+
+                            
+                            <input type="button" name="save" id="save" class="btn btn-info" value="Save" 
+                            onclick="save_film(<?php echo $idd; ?>);">
+                           
+                            
+                            
                             <input type="button" name="delete" id="delete" class="btn btn-info" value="Delete" 
-                            onclick="delete_film(<?php echo $idd; ?>); location.href = 'adminMovies.php'">
+                            onclick="delete_film(<?php echo $idd; ?>);">
                         
                         </td>
                     </tr>
@@ -74,95 +82,61 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
                 </tbody>
             </table>
             </form>           
+            <input onclick="location.reload(true);" type="image" src="img/restart.png" alt="Submit" width="100" height="100">
         </div>
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-      <form method="POST" class="register-form" id="register-form">
-      <?php  $result=$mysqli2->query("select * from film"); while($row=$result->fetch_assoc()){ ?>
-      <div class="modal-body">
-        <div class="input-group mb-3">
-			<div class="input-group-prepend"> <span class="input-group-text" id="title">Title</span> </div>
-			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value="<?php echo $row['Ime_Filma']; ?>"> 
-        </div>
-        <div class="input-group mb-3">
-			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Duration</span> </div>
-			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value="<?php echo $row['Trajanje']; ?>"> 
-        </div>
-        <div class="input-group mb-3">
-			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Release date</span> </div>
-			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value="<?php echo $row['Godina_proizvodnje']; ?>"> 
-        </div>
-        <div class="input-group mb-3">
-			<div class="input-group-prepend"> <span class="input-group-text" id="inputGroup-sizing-default">Overview</span> </div>
-			<input type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="story_name" value="<?php echo $row['Opis']; ?>"> 
-        </div>
-      </div>
-      <?php } ?>
-      </form>
-      
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" onclick="edit_film(<?php echo $idd; ?>);window.location.reload();">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+        
 
         
 
         
 
         <script>
-
-        
-                
+                        
         function delete_film(id){
 
             fetch("http://localhost:3000/films/"+id, {
             method: "DELETE",
             })
-            .then(alert("Movie deleted!")); 
+            .then(alert("Update to see, on R2D2 you must click!")); 
         }
 
-        function edit_film(idd){
-
-            var title = document.getElementById("register-form").elements[0].value;
-            var duration = parseInt(document.getElementById("register-form").elements[1].value);
-            var date = parseInt(document.getElementById("register-form").elements[2].value);
-            var overview = document.getElementById("register-form").elements[3].value;
+        function save_film(id){
             
 
+            var title = "<?php echo $_GET["title"] ?>";
+            console.log(title);
+            var date = parseInt('<?php echo $_GET["date"] ?>');
+            console.log(date);
+            var duration = parseInt('<?php echo $_GET["duration"] ?>');
+            console.log(duration);
+            var overview = "<?php echo $_GET["overview"] ?>";
+            console.log(overview);
+
             var obj;
-            fetch("http://localhost:3000/films/"+idd, {
+            fetch("http://localhost:3000/films/"+id, {
             method: "GET",
             })
             .then(res => res.json())
             .then(data => obj = data)
             .then(() => {
                 
-                fetch("http://localhost:3000/films/"+idd, {
-                 method: "PUT",
-                 headers: {
+                fetch("http://localhost:3000/films/"+id, {
+                method: "PUT",
+                headers: {
                 "Content-type": "application/json"
                 },
                 body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":date,"Trajanje":duration,"Poster":obj.Poster,
                 "Opis":overview})
                 })
             })
+            .then(alert("Update to see, on R2D2 you must click!"))
+        }
 
-                
-             
-        };
+   
+
+
 
         </script>
      
