@@ -27,12 +27,14 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
         <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
         <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.uikit.min.css">
     </head>
     <body>
         
         <div class="position-relative overflow-hidden p-1 p-sm-5 m-md-4 text-center bg-light">
         <form name="form" action="" method="get">
-        <table class="table table-fluid" id="myTable">
+        <table class="table  table-bordered" style="width:100%" id="myTable">
                 <thead>
                     <tr>
                         <th>Title</th>
