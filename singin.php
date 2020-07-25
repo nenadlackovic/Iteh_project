@@ -17,6 +17,7 @@ if (isset($_POST['signin'])) {
     if ($flag) {
         if ($parsed_json["Uloga"] == "Korisnik"){
             $_SESSION['user'] = "red";
+            $_SESSION['userId'] = $parsed_json["KorisnikId"];
         }
         else if($parsed_json["Uloga"] == "Admin"){
             $_SESSION['admin'] = "red";

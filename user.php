@@ -11,27 +11,28 @@ $obj = json_decode($json, true);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+
+    <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
-        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.uikit.min.css">
-        <script type="text/javascript" src="js/quotes.js"></script>
-        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&display=swap" rel="stylesheet">
+    
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    
+    <!-- js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        
+    <!--baza  -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.uikit.min.css">
+    
+    <!-- quotes -->
+    <script type="text/javascript" src="js/quotes.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&display=swap" rel="stylesheet">
 </head>
 
-<style>
-#quote{
-  font-family: 'EB Garamond', serif;
-}
-
-</style>
 
 <body>
 
@@ -39,7 +40,7 @@ $obj = json_decode($json, true);
 <div class="position-relative overflow-hidden p-3 p-md-5 m-md-4  text-center bg-light">
 <p class="h4 " id="quote"></p>
 
-<!-- <p class="text-right font-italic " style="width:67rem;">Toy Story, 1995</p> -->
+
 <br><br>
 <form name="form" action="" method="get">
         <table class="uk-table uk-table-hover uk-table-striped" style="width:100%"   id="myTable">
@@ -78,9 +79,17 @@ $obj = json_decode($json, true);
                         <td style='white-space: nowrap'>
                         <?php $idd =  $obj[$x]["FilmId"];?>
                         
-                        <input type="button" name="save" id="save" class="btn btn-info" value="Rate">   
                         
+                      <a href="#rate<?php echo $idd; ?>" data-toggle="modal" class="btn btn-warning">Rate</a>
+											<?php include('modalRateMovie.php'); ?>
+                        
+                       
+                                               
+
+                    
                         </td>
+
+                       
                     </tr>
                 <?php } ?>  
                 </tbody>
@@ -92,13 +101,66 @@ $obj = json_decode($json, true);
 
 
         <script>
+         
+            var star;
+
             $(document).ready(function () {
                 $("#myTable").DataTable();
             });
+
+            
+
+        
+
+            function rate(filmId, korisnikId){
+                
+                var comment = document.getElementById("comment").value
+                
+                var radios = document.getElementsByName('rating');
+
+                var star;
+
+                for (var i = 0, length = radios.length; i < length; i++) {
+                    if (radios[i].checked) {
+                    // do whatever you want with the checked radio
+                        star = radios[i].value;
+
+                        // only one radio can be logically checked, don't check the rest
+                         break;
+                            }
+                    }
+
+                
+
+                fetch(`http://localhost:3000/grades`, {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({"brojcanaOcena":parseInt(star), "komentar":comment, "korisnik":korisnikId, "film":filmId })
+                })
+                .then(res => res.json())
+                .then(data => obj = data)
+                .then( function asd(){
+                if (obj.statusCode){
+                    alert("Error, movie already rated!");
+                }else{
+                    alert("Movie rated!");
+                }
+            } )
+                
+
+                
+            }
         </script>
 
 
 
+<style>
+    #quote{
+      font-family: 'EB Garamond', serif;
+    }
+</style>
 
   
 <?php
