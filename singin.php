@@ -18,6 +18,7 @@ if (isset($_POST['signin'])) {
         if ($parsed_json["Uloga"] == "Korisnik"){
             $_SESSION['user'] = "red";
             $_SESSION['userId'] = $parsed_json["KorisnikId"];
+            $_SESSION['username'] = $parsed_json["Username"];
         }
         else if($parsed_json["Uloga"] == "Admin"){
             $_SESSION['admin'] = "red";
@@ -91,7 +92,7 @@ if (isset($_POST['signin'])) {
   crossorigin="anonymous"></script>
 
   <?php
-include("footer.php");
-?>
+  include("footer.php");
+  ?>
 </body>
 </html>
