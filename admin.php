@@ -77,16 +77,6 @@ $obj = json_decode($json);
 
         </div>
 
-        
-
-        
-
-        
-     
-
-      
-
-
 
         <script>
             $(document).ready(function () {
