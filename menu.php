@@ -10,7 +10,7 @@ include("connection.php");
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
       </li>
 
@@ -35,7 +35,10 @@ include("connection.php");
         if(!empty($_SESSION['user'])){
          ?> 
       <li class="nav-item">
-        <a class="nav-link" href="user.php">User</a>
+        <a class="nav-link" href="user.php">Movies</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="userMovies.php"><?php echo ucfirst($_SESSION['username'])?></a>
       </li>
       <?php 
         }
