@@ -155,14 +155,18 @@ fetch(`http://localhost:3000/films`, {
   body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":dateInt, "Trajanje":durationInt, "Poster":poster,
   "Opis":overview, "reziser":obj, "zanr": genre, "korisnik":<?php echo $admin ?>})
 })
-.then( function asd(){
-    if (obj.statusCode){
-        alert("Error, movie already exist !");
-    }else{
-        alert("Movie added successfully");
-    }
-} )
 )
+.then((res) => res.json())
+        .then((data) => (obj = data))
+        .then(function asd() {
+            if (obj.statusCode) {
+                alert("Error, movie already exist!");
+                window.location.href = "admin.php";
+            } else {
+                alert("Movie added successfully!");
+                window.location.href = "adminMovies.php";
+            }
+        });
 };
 
 
@@ -184,7 +188,7 @@ fetch(`http://localhost:3000/films`, {
   crossorigin="anonymous"></script>
 
   <style type="text/css">
-.position-relative {
+  .position-relative {
   background: url(img/admin.jpg) no-repeat center center; 
   background-size: cover; 
 }
