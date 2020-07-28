@@ -11,28 +11,29 @@
       
       
 
-      <form method="get" class="register-form" name="register-form" id="register-form">
-      <?php  
-      $json_string = @file_get_contents('http://localhost:3000/films/'.$idd);
-      $parsed_json = json_decode($json_string, true);
-      $title = $parsed_json["ImeFilma"];
-      $date = $parsed_json["GodinaProizvodnje"];
-      $duration = $parsed_json["Trajanje"];
-      $overview = $parsed_json["Opis"];
-      ?>
-      <div class="modal-body">
-        <div class="input-group mb-3">
-        <textarea class="form-control" id="comment" rows="2" placeholder="Add comment"></textarea>
-        </div>
+      
+      <form method="POST" action="actionAddRating.php?filmId=<?php echo $idd; ?>&userId=<?php echo $_SESSION['userId']; ?>" enctype="multipart/form-data">
+      <div class="modal-body text-dark">
+      <p class="h5 text-muted">Comment</p>
 
         <div class="input-group mb-3">
-        <div class="rating" id="star" name='star'> 
-        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
-        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
-        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
-        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
-        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+        <input type="text" class="form-control" name="komentar" id="comentar1" rows="2" placeholder="Add comment">
         </div>
+        
+
+        <p class="h5 text-muted">Rating</p>
+        <div class="input-group mb-3">
+        <select class="form-control" name="rating" id="rating">
+    
+        <option value=5 >5</option>
+        <option value=4 >4</option>
+        <option value=3 >3</option>
+        <option value=2 >2</option>
+        <option value=1 >1</option>
+        
+      
+        
+        </select>
         </div>
 
       
@@ -40,13 +41,15 @@
       
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" id ="save" class="btn btn-primary" 
-        onclick="rate(<?php echo $idd; ?>, <?php echo $_SESSION['userId']; ?>);">Save changes</button>
+        <button type="submit" id ="save" class="btn btn-primary">Save changes</button>
       </div>
       </form>
     </div>
   </div>
 </div>
+
+
+
 
 
 
