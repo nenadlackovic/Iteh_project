@@ -70,10 +70,6 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
                             <?php include("modalEditMovies.php")?>
 
                             
-                            <input type="button" name="save" id="save" class="btn btn-info" value="Save" 
-                            onclick="save_film(<?php echo $idd; ?>);">
-                           
-                            
                             
                             <input type="button" name="delete" id="delete" class="btn btn-info" value="Delete" 
                             onclick="delete_film(<?php echo $idd; ?>);">
@@ -87,13 +83,6 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
             <input onclick="location.reload(true);" type="image" src="img/restart.png" alt="Submit" width="100" height="100">
         </div>
 
-
-        
-
-        
-
-        
-
         <script>
                         
         function delete_film(id){
@@ -104,47 +93,8 @@ $obj = json_decode($json, true); // ako ne vratim kao true vraca se kao objekat 
             .then(alert("Update to see, on R2D2 you must click!")); 
         }
 
-        function save_film(id){
-            
-
-            var title = "<?php echo $_GET["title"] ?>";
-            console.log(title);
-            var date = parseInt('<?php echo $_GET["date"] ?>');
-            console.log(date);
-            var duration = parseInt('<?php echo $_GET["duration"] ?>');
-            console.log(duration);
-            var overview = "<?php echo $_GET["overview"] ?>";
-            console.log(overview);
-
-            var obj;
-            fetch("http://localhost:3000/films/"+id, {
-            method: "GET",
-            })
-            .then(res => res.json())
-            .then(data => obj = data)
-            .then(() => {
-                
-                fetch("http://localhost:3000/films/"+id, {
-                method: "PUT",
-                headers: {
-                "Content-type": "application/json"
-                },
-                body: JSON.stringify({"ImeFilma":title, "GodinaProizvodnje":date,"Trajanje":duration,"Poster":obj.Poster,
-                "Opis":overview})
-                })
-            })
-            .then(alert("Update to see, on R2D2 you must click!"))
-        }
-
-   
-
-
-
         </script>
      
-
-      
-
 
 
         <script>
